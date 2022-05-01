@@ -49,7 +49,7 @@ src_unpack() {
 	# and ${LLVM_MAIN_SRC_DIR}/../libunwind/include is used by build system
 	# (lld/MachO/CMakeLists.txt) and is expected to be resolvable
 	# to existent directory ${WORKDIR}/libunwind/include.
-	mkdir -p "${WORKDIR}/llvm" || die
+	mkdir -p "${WORKDIR}/lld" || die
 }
 
 src_configure() {
