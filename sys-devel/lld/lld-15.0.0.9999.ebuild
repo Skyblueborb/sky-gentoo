@@ -59,6 +59,7 @@ src_configure() {
 	use elibc_musl && append-ldflags -Wl,-z,stack-size=2097152
 
 	local mycmakeargs=(
+		-DENABLE_PROJECTS='lld'
 		-DBUILD_SHARED_LIBS=ON
 		-DLLVM_INCLUDE_TESTS=$(usex test)
 		-DLLVM_MAIN_SRC_DIR="${WORKDIR}/llvm"
