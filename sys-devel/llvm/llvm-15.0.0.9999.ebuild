@@ -63,7 +63,7 @@ PDEPEND="
 	binutils-plugin? ( >=sys-devel/llvmgold-${SLOT} )
 "
 
-LLVM_COMPONENTS=( llvm cmake third-party )
+LLVM_COMPONENTS=( llvm cmake clang lld compiler-rt third-party )
 LLVM_MANPAGES=build
 LLVM_PATCHSET=9999-r3
 LLVM_USE_TARGETS=provide
@@ -340,7 +340,7 @@ multilib_src_configure() {
 		-DLLVM_APPEND_VC_REV=OFF
 		-DCMAKE_INSTALL_PREFIX="${EPREFIX}/usr/lib/llvm/${SLOT}"
 		-DLLVM_LIBDIR_SUFFIX=${libdir#lib}
-		-DLLVM_ENABLE_PROJECTS='clang;polly;lld;compiler-rt'
+		#-DLLVM_ENABLE_PROJECTS='clang;polly;lld;compiler-rt'
 
 		-DBUILD_SHARED_LIBS=OFF
 		-DLLVM_BUILD_LLVM_DYLIB=ON
