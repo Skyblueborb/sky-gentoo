@@ -62,7 +62,7 @@ src_configure() {
 		-DENABLE_PROJECTS='lld;llvm'
 		-DBUILD_SHARED_LIBS=ON
 		-DLLVM_INCLUDE_TESTS=$(usex test)
-		-DLLVM_MAIN_SRC_DIR="${WORKDIR}/llvm"
+		-DLLVM_MAIN_SRC_DIR="${WORKDIR}/lld"
 	)
 	use test && mycmakeargs+=(
 		-DLLVM_BUILD_TESTS=ON
