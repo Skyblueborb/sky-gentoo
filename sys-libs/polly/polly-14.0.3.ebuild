@@ -39,6 +39,7 @@ pkg_setup() {
 
 src_configure() {
 	local mycmakeargs=(
+		-DLLVM_ENABLE_PROJECTS='clang;polly'
 		-DBUILD_SHARED_LIBS=OFF
 		-DLLVM_LINK_LLVM_DYLIB=ON
 		-DLLVM_POLLY_LINK_INTO_TOOLS=ON
