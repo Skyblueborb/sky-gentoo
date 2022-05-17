@@ -352,7 +352,6 @@ multilib_src_configure() {
 		-DLLVM_EXPERIMENTAL_TARGETS_TO_BUILD="${LLVM_TARGETS// /;}"
 		-DLLVM_BUILD_TESTS=$(usex test)
 
-		-DLLVM_ENABLE_PROJECTS='clang;polly'
 		-DLLVM_ENABLE_FFI=$(usex libffi)
 		-DLLVM_ENABLE_LIBEDIT=$(usex libedit)
 		-DLLVM_ENABLE_TERMINFO=$(usex ncurses)
