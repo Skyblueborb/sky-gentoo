@@ -66,7 +66,7 @@ PDEPEND="
 	binutils-plugin? ( >=sys-devel/llvmgold-${SLOT} )
 "
 
-LLVM_COMPONENTS=( llvm cmake third-party )
+LLVM_COMPONENTS=( llvm cmake polly third-party clang )
 LLVM_MANPAGES=1
 LLVM_PATCHSET=${PV}
 LLVM_USE_TARGETS=provide
