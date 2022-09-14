@@ -3,7 +3,7 @@
 
 EAPI=8
 
-PYTHON_COMPAT=( python3_{8..10} )
+PYTHON_COMPAT=( python3_{8..11} )
 inherit cmake llvm.org multilib-minimal pax-utils python-any-r1 \
 	toolchain-funcs
 
@@ -18,7 +18,7 @@ HOMEPAGE="https://llvm.org/"
 
 LICENSE="Apache-2.0-with-LLVM-exceptions UoI-NCSA BSD public-domain rc"
 SLOT="$(ver_cut 1)"
-KEYWORDS=""
+KEYWORDS="~amd64 ~arm ~arm64 ~ppc ~ppc64 ~riscv ~sparc ~x86 ~amd64-linux ~ppc-macos ~x64-macos"
 IUSE="+binutils-plugin debug doc exegesis libedit +libffi ncurses test xar xml z3"
 RESTRICT="!test? ( test )"
 
@@ -63,20 +63,20 @@ PDEPEND="
 	binutils-plugin? ( >=sys-devel/llvmgold-${SLOT} )
 "
 
-LLVM_COMPONENTS=( llvm cmake third-party )
-LLVM_MANPAGES=build
-LLVM_PATCHSET=9999-r3
+LLVM_COMPONENTS=( llvm cmake polly third-party clang )
+LLVM_MANPAGES=1
+LLVM_PATCHSET=${PV/_/-}-r1
 LLVM_USE_TARGETS=provide
 llvm.org_set_globals
 
 python_check_deps() {
 	use doc || return 0
 
-	has_version -b "dev-python/recommonmark[${PYTHON_USEDEP}]" &&
-	has_version -b "dev-python/sphinx[${PYTHON_USEDEP}]"
+	python_has_version -b "dev-python/recommonmark[${PYTHON_USEDEP}]" &&
+	python_has_version -b "dev-python/sphinx[${PYTHON_USEDEP}]"
 }
 
-check_live_ebuild() {
+check_uptodate() {
 	local prod_targets=(
 		$(sed -n -e '/set(LLVM_ALL_TARGETS/,/)/p' CMakeLists.txt \
 			| tail -n +2 | head -n -1)
@@ -139,7 +139,7 @@ check_distribution_components() {
 
 				all_targets+=( "${l}" )
 			fi
-		done < <(ninja -t targets all)
+		done < <(${NINJA} -t targets all)
 
 		while read -r l; do
 			my_targets+=( "${l}" )
@@ -173,8 +173,8 @@ src_prepare() {
 	# Update config.guess to support more systems
 	cp "${BROOT}/usr/share/gnuconfig/config.guess" cmake/ || die
 
-	# Verify that the live ebuild is up-to-date
-	check_live_ebuild
+	# Verify that the ebuild is up-to-date
+	check_uptodate
 
 	llvm.org_src_prepare
 }
@@ -222,6 +222,7 @@ get_distribution_components() {
 			count
 			not
 			yaml-bench
+			UnicodeNameMappingGenerator
 
 			# tools
 			bugpoint
@@ -243,11 +244,13 @@ get_distribution_components() {
 			llvm-cxxdump
 			llvm-cxxfilt
 			llvm-cxxmap
+			llvm-debuginfod
 			llvm-debuginfod-find
 			llvm-diff
 			llvm-dis
 			llvm-dlltool
 			llvm-dwarfdump
+			llvm-dwarfutil
 			llvm-dwp
 			llvm-exegesis
 			llvm-extract
@@ -340,6 +343,7 @@ multilib_src_configure() {
 		-DLLVM_APPEND_VC_REV=OFF
 		-DCMAKE_INSTALL_PREFIX="${EPREFIX}/usr/lib/llvm/${SLOT}"
 		-DLLVM_LIBDIR_SUFFIX=${libdir#lib}
+		-DLLVM_ENABLE_PROJECTS='clang;polly'
 
 		-DBUILD_SHARED_LIBS=OFF
 		-DLLVM_BUILD_LLVM_DYLIB=ON
