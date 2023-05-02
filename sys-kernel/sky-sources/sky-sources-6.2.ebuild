@@ -9,8 +9,9 @@ KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~loong ~m68k ~mips ~ppc ~ppc64 ~
 DESCRIPTION="Full sources including the Gentoo patchset for the ${KV_MAJOR}.${KV_MINOR} kernel tree"
 
 pkg_postinst() {
-	einfo "For more info on this patchset, and how to report problems, see:"
+	einfo "Dummy package"
 }
 
 pkg_postrm() {
+	einfo "Dummy package"
 }
