@@ -4,9 +4,13 @@
 EAPI="8"
 ETYPE="sources"
 
+inherit kernel-2
+detect_version
+detect_arch
+
 KEYWORDS="amd64 x86"
 
-DESCRIPTION="Full sources including the Gentoo patchset for the ${KV_MAJOR}.${KV_MINOR} kernel tree"
+DESCRIPTION="Full dummy kernel source package to not need another kernel installed"
 
 pkg_postinst() {
 	einfo "Dummy package"
